@@ -1,6 +1,7 @@
 #include <Arduino.h>
 
 const int LED = LED_BUILTIN;
+const unsigned long DELAY = 1000;
 
 void setup() {
   pinMode(LED,OUTPUT);
@@ -8,10 +9,11 @@ void setup() {
 }
 
 void loop() {
-  digitalWrite(LED,HIGH);
-  Serial.println("HIGH");
-  delay(1000);
-  digitalWrite(LED,LOW);
-  Serial.println("LOW");
-  delay(1000);
+  static unsigned long now = millis();
+
+  if(millis()-now > DELAY){
+    now = millis();
+    digitalWrite(LED,!digitalRead(LED));
+    Serial.printf("STATE : %d\n",digitalRead(LED));
+    }
 }
